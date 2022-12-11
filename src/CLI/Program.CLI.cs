@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 
+using System.Text.Json;
+
 using System.CommandLine;
 
 using Lotus.Extras;
@@ -93,6 +95,12 @@ partial class Program
 
         graphVerb.AddCommand(makeConstSubCmd(g => Console.WriteLine(g.ToText())));
 
+        var genVerb = new Command("gen", "Generate IR to stdout") {
+            fileArgument
+        };
+
+        genVerb.SetHandler(GenHandler, fileArgument);
+
         /*
         *   lotus [--force] {silent, print, hash, graph}
         */
@@ -103,6 +111,7 @@ partial class Program
             printVerb,
             hashVerb,
             graphVerb,
+            genVerb,
         };
 
         rootCommand.Name = "lotus";
@@ -159,6 +168,23 @@ partial class Program
             // print the last (EOF) token, which is not consumed by the parser
             Console.WriteLine(s[..^1]);
         }
+
+        return Task.FromResult(0);
+    }
+
+    static Task<int> GenHandler(FileInfo file) {
+        var tokenizer = GetTokenizerForFile(file);
+        var exitCode = HandleParsing(tokenizer, out var tlNodes);
+
+        if (exitCode != 0) {
+            return Task.FromResult(exitCode);
+        }
+
+        var output = new System.Text.Json.Nodes.JsonObject[tlNodes.Length];
+        for (int i = 0; i < tlNodes.Length; i++) {
+            output[i] = ExtraUtils.SerializeTopLevel(tlNodes[i]);
+        }
+        Console.WriteLine(JsonSerializer.Serialize(output));
 
         return Task.FromResult(0);
     }

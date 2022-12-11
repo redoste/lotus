@@ -27,6 +27,8 @@ public static class ExtraUtils
                                                          where U : Node
         => ASTUtils.PrintUnion(u);
 
+    public static System.Text.Json.Nodes.JsonObject SerializeTopLevel(TopLevelNode node) => ASTUtils.SerializeNode(node);
+
     public static GraphNode ToGraphNode(Token token) => TokenGraphMaker.ToGraphNode(token);
     public static GraphNode ToGraphNode(ValueNode node) => StatementGraphMaker.ToGraphNode(node);
     public static GraphNode ToGraphNode(StatementNode node) => StatementGraphMaker.ToGraphNode(node);
