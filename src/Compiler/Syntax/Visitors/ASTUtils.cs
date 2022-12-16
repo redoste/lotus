@@ -65,7 +65,7 @@ internal static class ASTUtils
         for (int i = 0; i < tuple.Length; i++) {
             ret[i] = transform(tuple[i]);
         }
-        return new JsonArray(){ret};
+        return new JsonArray(ret);
     }
 
     public static JsonObject SerializeStructField(StructField field)
