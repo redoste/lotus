@@ -71,15 +71,17 @@ internal static class ASTUtils
 
     public static JsonObject SerializeStructField(StructField field)
         => new JsonObject(){
+            {"type", "StructField"},
             {"name", SerializeValue(field.Name)},
-            {"type", SerializeValue(field.Type)},
+            {"fieldtype", SerializeValue(field.Type)},
             {"default", SerializeValue(field.DefaultValue)},
         };
 
     public static JsonObject SerializeFunctionParameter(FunctionParameter field)
         => new JsonObject(){
+            {"type", "FunctionParameter"},
             {"name", SerializeValue(field.Name)},
-            {"type", SerializeValue(field.Type)},
+            {"parametertype", SerializeValue(field.Type)},
             {"default", SerializeValue(field.DefaultValue)},
         };
 
