@@ -55,8 +55,9 @@ internal static class ASTUtils
     public static JsonObject SerializeNode(Node node)
         => node switch {
             ValueNode value => SerializeValue(value),
+            StatementNode statement => SerializeStatement(statement),
             TopLevelNode tl => SerializeTopLevel(tl),
-            _ => throw new NotImplementedException("oof" + node.GetType()),
+            _ => throw new NotImplementedException("Unable to serialize " + node.GetType()),
         };
 
     public static JsonArray SerializeTuple<T>(Tuple<T> tuple, Func<T, JsonObject> transform) => SerializeTuple(tuple.Items, transform);
