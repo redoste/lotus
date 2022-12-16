@@ -54,7 +54,7 @@ internal sealed class StatementSerializer : IStatementVisitor<SerializedNode>
             {"type", "IfNode"},
             {"condition", ASTUtils.SerializeValue(node.Condition)},
             {"body", Serialize(node.Body)},
-            {"else", Serialize(node.ElseNode)}
+            {"elze", Serialize(node.ElseNode)}
         };
 
     public SerializedNode Visit(PrintNode node)
